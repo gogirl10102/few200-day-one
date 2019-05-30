@@ -1,34 +1,52 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TodoListItem } from './models';
+import { TodoDataService } from './todo-data.service';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-todo-list',
   templateUrl: './todo-list.component.html',
   styleUrls: ['./todo-list.component.css']
 })
-export class TodoListComponent {
+export class TodoListComponent implements OnInit, OnDestroy {
   title = 'Your Todo List';
 
-  items: TodoListItem[] = [
-    { description: 'Fix front door', completed: false },
-    { description: 'Change LED bath lights', completed: false },
-    { description: 'Kill thistles', completed: true }
-  ];
+  items$: Observable<TodoListItem[]>;
+  // items: TodoListItem[];
+  // subscription: Subscription;
+
+  constructor(private service: TodoDataService) { }
+
+  ngOnInit() {
+    this.items$ = this.service.getTodoList();
+
+    // this.items$.subscribe(tdl => {
+    //   console.log('Got a new todolist!', tdl);
+    //   this.items = tdl;
+    // });
+  }
+
+  ngOnDestroy() {
+    // this.subscription.unsubscribe();
+  }
 
   markComplete(item: TodoListItem) {
-    item.completed = true;
+    // item.completed = true;
+    // call the service
   }
 
   add(what: string) {
-    this.items.unshift({ description: what, completed: false });
+    // this.items.unshift({ description: what, completed: false });
+    // TODO: a call to the service to add this nes Todo
+    this.service.add(what);
   }
 
   clearCompleted() {
     // this.items = this.items.filter(item => item.completed === false);
-    this.items = this.items.filter(item => item.completed !== true);
+    // this.items = this.items.filter(item => item.completed !== true);
   }
 
   unClearAllCompleted(what: string) {
-    // TODO:
+    // this.items.forEach(item => item.completed = false);
   }
 }
