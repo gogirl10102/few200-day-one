@@ -14,19 +14,21 @@ export class TodoListComponent {
     { description: 'Change LED bath lights', completed: false },
     { description: 'Kill thistles', completed: true }
   ];
+
   markComplete(item: TodoListItem) {
     item.completed = true;
   }
 
-  add(what: HTMLInputElement) {
-    console.log(what.value);
-    this.items.unshift({ description: what.value, completed: false });
-    what.value = '';
-    what.focus();
+  add(what: string) {
+    this.items.unshift({ description: what, completed: false });
   }
 
   clearCompleted() {
     // this.items = this.items.filter(item => item.completed === false);
     this.items = this.items.filter(item => item.completed !== true);
+  }
+
+  unClearAllCompleted(what: string) {
+    // TODO:
   }
 }
